@@ -2,7 +2,7 @@
 *.key
 *.pem
 *.conf
-www_*
+*_*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
