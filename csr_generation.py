@@ -17,8 +17,11 @@ def generate_csr_interactive():
         domain_directory = common_name.replace(".", "_")
         os.makedirs(domain_directory, exist_ok=True)
 
+        # Add common_name at the beginning of file names
+        common_name_prefix = common_name.replace(".", "_")
+
         # Create the conf file
-        conf_file = os.path.join(domain_directory, "mycsr.conf")
+        conf_file = os.path.join(domain_directory, f"{common_name_prefix}_mycsr.conf")
         with open(conf_file, "w") as f:
             f.write(f"""[req]
 default_bits = 2048
@@ -44,12 +47,12 @@ DNS.1 = *.dev.{common_name}
 """)
 
         # Generate the private key
-        private_key_file = os.path.join(domain_directory, "private.key")
+        private_key_file = os.path.join(domain_directory, f"{common_name_prefix}_private.key")
         openssl_key_cmd = f"openssl genpkey -algorithm RSA -out {private_key_file}"
         subprocess.run(openssl_key_cmd, shell=True, check=True)
 
         # Generate the CSR
-        csr_file = os.path.join(domain_directory, "csr.pem")
+        csr_file = os.path.join(domain_directory, f"{common_name_prefix}_csr.pem")
         openssl_csr_cmd = f"openssl req -new -config {conf_file} -key {private_key_file} -out {csr_file}"
         subprocess.run(openssl_csr_cmd, shell=True, check=True)
 
