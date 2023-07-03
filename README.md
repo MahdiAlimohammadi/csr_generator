@@ -1,4 +1,4 @@
-# CSR Generation
+# CSR Generator
 
 This project generates a Certificate Signing Request (CSR) interactively or from a configuration file using OpenSSL.
 
