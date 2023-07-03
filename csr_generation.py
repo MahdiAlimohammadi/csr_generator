@@ -75,13 +75,11 @@ def generate_csr_from_config(conf_file):
 
             # Generate the private key
             private_key_file = os.path.join(domain_directory, f"{common_name_prefix}_private.key")
-            openssl_key_cmd = f"openssl genpkey -algorithm RSA -out {private_key_file}"
-            subprocess.run(openssl_key_cmd, shell=True, check=True)
+            subprocess.run(["openssl", "genpkey", "-algorithm", "RSA", "-out", private_key_file], check=True)
 
             # Generate the CSR
             csr_file = os.path.join(domain_directory, f"{common_name_prefix}_csr.pem")
-            openssl_csr_cmd = f"openssl req -new -config {conf_file} -key {private_key_file} -out {csr_file}"
-            subprocess.run(openssl_csr_cmd, shell=True, check=True)
+            subprocess.run(["openssl", "req", "-new", "-config", conf_file, "-key", private_key_file, "-out", csr_file], check=True)
 
             print("\nCSR generated successfully!")
             print(f"CSR file: {os.path.abspath(csr_file)}")
@@ -114,7 +112,7 @@ def main():
             print("An error occurred while generating the CSR:")
             print(str(e))
     else:
-        print("Invalid choice!")
+        print("Invalid choice! Please choose option 1 or 2.")
 
 
 if __name__ == "__main__":
